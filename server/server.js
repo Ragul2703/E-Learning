@@ -100,6 +100,15 @@ app.post('/upload', upload.fields([{ name: 'thumbnail' }, { name: 'video' }]), a
 // Get all courses endpoint
 app.get('/courses', async (req, res) => {
   try {
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+      res.status(200).end();
+      return;
+    }
+
     const courses = await Course.find();
     res.status(200).json(courses);
   } catch (err) {
